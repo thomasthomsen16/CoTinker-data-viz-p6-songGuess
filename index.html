@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite-api@5.6.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-tooltip"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@5"></script>
-    <title>CoTinker data viz p4 parallel coordinate plot dropdown menu</title>
+    <title>CoTinker data viz p6: Guessing songs with parallel coordinate plot</title>
 </head>
 <body>
     <div class="header">
@@ -31,6 +31,65 @@
             <label for="rockCheckbox">rock</label>
             <input type="checkbox" id="rockCheckbox" name="rockCheckbox" value="1" checked>
         </div>
+    </div>
+    <div class="table-container">
+        <table>
+            <caption>Data for 4 tilfældige sange</caption>
+            <thead>
+                <tr class="header-row">
+                    <th>Tempo</th>
+                    <th>Danceability</th>
+                    <th>Energy</th>
+                    <th>Valence</th>
+                    <th>Duration_ms</th>
+                    <th>release_year</th>
+                    <th>Jeres gæt</th>
+                    <th>Genre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row1", id="row1">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row2", id="row2">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row3", id="row3">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row4", id="row4">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <script src="main.js"></script>
 </body>
