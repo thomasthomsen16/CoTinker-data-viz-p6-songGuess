@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite-api@5.6.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-tooltip"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@5"></script>
-    <title>CoTinker data viz p3 parallel coordinate plot</title>
+    <title>CoTinker data viz p4 parallel coordinate plot dropdown menu</title>
 </head>
 <body>
     <div class="header">
@@ -17,6 +17,20 @@
     </div>
     <div class="chart-container" id="chart-container">
         <div id="chart1"></div>
+        <div class="checkboxes">
+            <label for="edmCheckbox">edm</label>
+            <input type="checkbox" id="edmCheckbox" name="edmCheckbox" value="1" checked>
+            <label for="latinCheckbox">latin</label>
+            <input type="checkbox" id="latinCheckbox" name="latinCheckbox1" value="1" checked>
+            <label for="popCheckbox">pop</label>
+            <input type="checkbox" id="popCheckbox" name="popCheckbox" value="1" checked>
+            <label for="rnbCheckbox">rnb</label>
+            <input type="checkbox" id="rnbCheckbox" name="rnbCheckbox" value="1" checked>
+            <label for="rapCheckbox">rap</label>
+            <input type="checkbox" id="rapCheckbox" name="rapCheckbox" value="1" checked>
+            <label for="rockCheckbox">rock</label>
+            <input type="checkbox" id="rockCheckbox" name="rockCheckbox" value="1" checked>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>

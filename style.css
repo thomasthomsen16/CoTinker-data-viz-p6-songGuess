@@ -15,24 +15,52 @@ body {
     height: 56px;
     width: 100%;
     padding-left: 8px;
-    
+
 }
 
 .vega-bindings {
     display: flex;
+    padding-left: 60px;
+    justify-content: space-between;
+    width: 700px;
 }
 
 .vega-bind {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-right: 5px;
 }
 
 .chart-container {
     margin-left: 8px;
+    display: flex;
 }
 
 .marks {
     border-radius: 5px;
+}
+
+.vega-bind-name {
+    display: none;
+}
+
+.checkboxes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 8px;
+    flex-direction: column;
+    transform: translate(-95px, -265px);
+    color: black;
+    font-size: 12px;
+    scale: 0.8;
+
+}
+
+.checkboxes label {
+    display: none;
+}
+
+input[type="checkbox"] {    
+    margin:2px
 }
