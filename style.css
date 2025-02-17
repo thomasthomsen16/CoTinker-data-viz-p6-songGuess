@@ -1,0 +1,38 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    --main-color: #004078;
+    --main-text-color: white;
+    font-family: 'Roboto', sans-serif;
+    color: var(--main-text-color);
+    background-color: var(--main-color);
+}
+
+.header {
+    background-color: #76c2851a;
+    display: flex;
+    align-items: left;
+    height: 56px;
+    width: 100%;
+    padding-left: 8px;
+    
+}
+
+.vega-bindings {
+    display: flex;
+}
+
+.vega-bind {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 5px;
+}
+
+.chart-container {
+    margin-left: 8px;
+}
+
+.marks {
+    border-radius: 5px;
+}
