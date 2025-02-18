@@ -75,22 +75,18 @@ function renderChart(sampleData, chartId) {
       {
         "name": "axis1",
         "value": "tempo",
-        "bind": { "input": "select", "options": ["tempo", "danceability", "energy", "valence", "duration_ms", "release_year"] }
       },
       {
         "name": "axis2",
         "value": "danceability",
-        "bind": { "input": "select", "options": ["tempo", "danceability", "energy", "valence","duration_ms", "release_year"] }
       },
       {
         "name": "axis3",
         "value": "energy",
-        "bind": { "input": "select", "options": ["tempo", "danceability", "energy", "valence", "speechiness", "instrumentalness", "duration_ms", "liveness", "release_year"] }
       },
       {
         "name": "axis4",
         "value": "valence",
-        "bind": { "input": "select", "options": ["tempo", "danceability", "energy", "valence", "duration_ms", "release_year"] }
       },
       {
         name: "edm",

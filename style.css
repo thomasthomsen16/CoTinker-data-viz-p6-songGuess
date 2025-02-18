@@ -54,9 +54,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-right: 8px;
     flex-direction: column;
-    transform: translate(-95px, -265px);
+    transform: translate(-95px, -253px);
     color: black;
     font-size: 12px;
     scale: 0.8;
@@ -68,7 +67,7 @@ body {
 }
 
 input[type="checkbox"] {    
-    margin:2px
+    margin:1.5px
 }
 
 .table-container {
