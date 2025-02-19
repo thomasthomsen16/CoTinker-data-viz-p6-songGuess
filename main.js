@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const parsedData = parseCSV(csvData);
       const sampleData = getRandomSample(parsedData, 400);
       renderChart(sampleData, "chart1");
+      fillTableWithRandomSongs(sampleData);
     })
   // Handle checkbox interaction to update the signal
   document.getElementById("edmCheckbox").addEventListener("change", function () {
@@ -337,3 +338,23 @@ function getRandomSample(data, sampleSize) {
   return validData.sort(() => 0.5 - Math.random()).slice(0, sampleSize);
 }
 
+function fillTableWithRandomSongs(sampleData) {
+  // Randomly shuffle and then pick 4 songs.
+  const randomSongs = sampleData.sort(() => Math.random() - 0.5).slice(0, 4);
+  
+  // Loop over each random song (these correspond to rows 1-4 in the table body)
+  for (let i = 0; i < randomSongs.length; i++) {
+    const song = randomSongs[i];
+    // Get the row by its ID ("row1", "row2", etc.)
+    const row = document.getElementById("row" + (i + 1));
+    if (row && row.cells.length >= 5) {
+      // Fill in the first four cells with the song's values.
+      row.cells[0].innerText = song.tempo;
+      row.cells[1].innerText = song.danceability;
+      row.cells[2].innerText = song.energy;
+      row.cells[3].innerText = song.valence;
+      // Leave the fifth cell empty.
+      row.cells[4].innerText = "";
+    }
+  }
+}
