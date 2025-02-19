@@ -353,8 +353,6 @@ function fillTableWithRandomSongs(sampleData) {
       row.cells[1].innerText = song.danceability;
       row.cells[2].innerText = song.energy;
       row.cells[3].innerText = song.valence;
-      // Leave the fifth cell empty.
-      row.cells[4].innerText = "";
     }
   }
 }
