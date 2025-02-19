@@ -22,6 +22,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("reveal-button").addEventListener("click", function () {
     highlightSelectedSongs();
+      // Reveal the genre column header
+  document.getElementById("genre-column-header").style.display = "table-cell";
+
+  // Reveal each genre cell in the rows
+  const genreCells = document.querySelectorAll("#genre-cell");
+  genreCells.forEach(cell => {
+    cell.style.display = "table-cell"; // Make genre cells visible
+  });
   });
 
     // Dropdown change event to check if all are selected
@@ -372,6 +380,7 @@ function fillTableWithRandomSongs(sampleData) {
       row.cells[1].innerText = song.danceability;
       row.cells[2].innerText = song.energy;
       row.cells[3].innerText = song.valence;
+      row.cells[5].innerText = song.playlist_genre;
 
       // Assign the correct index from the dataset
       row.dataset.index = song.index;  // Ensure `index` exists in `song`
@@ -411,3 +420,27 @@ function checkDropdowns() {
   const revealButton = document.getElementById("reveal-button");
   revealButton.disabled = !allSelected;
 }
+
+function revealGenreColumn() {
+  // Show the genre column header
+  document.getElementById("genre-column-header").style.display = "table-cell";
+  
+  const genres = ["edm", "latin", "pop", "rnb", "rap", "rock"];
+
+  // For each row, set the genre based on the song index
+  const rows = document.querySelectorAll("tr[id^='row']");
+  rows.forEach(row => {
+    const songIndex = row.dataset.index;
+
+    // Directly compute the genre for this song based on its index
+    const genre = genres[songIndex % genres.length];
+
+    // Check if the genre cell exists in the row and is initially hidden
+    const genreCell = row.querySelector("td[id='hidden-cell']");
+    if (genreCell) {
+      genreCell.style.display = "table-cell"; // Make sure the genre cell is visible
+      genreCell.innerText = genre; // Fill the genre cell (column 6)
+    }
+  });
+}
+
