@@ -9,53 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
       renderChart(sampleData, "chart1");
       fillTableWithRandomSongs(sampleData);
     })
-  // Handle checkbox interaction to update the signal
-  document.getElementById("edmCheckbox").addEventListener("change", function () {
-    const checked = this.checked;  // Get the checked status of the checkbox
-    // Update the signal value for 'edm'
-    if (chartView) { // Ensure chartView is defined
-      chartView.signal("edm", checked ? 1 : 0).runAsync(); // Set the 'edm' signal value 
-    }
-  });
-  // Handle checkbox interaction to update the signal
-  document.getElementById("latinCheckbox").addEventListener("change", function () {
-    const checked = this.checked;  // Get the checked status of the checkbox
-    // Update the signal value for 'edm'
-    if (chartView) { // Ensure chartView is defined
-      chartView.signal("latin", checked ? 1 : 0).runAsync(); // Set the 'edm' signal value 
-    }
-  });
-  // Handle checkbox interaction to update the signal
-  document.getElementById("popCheckbox").addEventListener("change", function () {
-    const checked = this.checked;  // Get the checked status of the checkbox
-    // Update the signal value for 'edm'
-    if (chartView) { // Ensure chartView is defined
-      chartView.signal("pop", checked ? 1 : 0).runAsync(); // Set the 'edm' signal value 
-    }
-  });
-  // Handle checkbox interaction to update the signal
-  document.getElementById("rnbCheckbox").addEventListener("change", function () {
-    const checked = this.checked;  // Get the checked status of the checkbox
-    // Update the signal value for 'edm'
-    if (chartView) { // Ensure chartView is defined
-      chartView.signal("rnb", checked ? 1 : 0).runAsync(); // Set the 'edm' signal value 
-    }
-  });
-  // Handle checkbox interaction to update the signal
-  document.getElementById("rapCheckbox").addEventListener("change", function () {
-    const checked = this.checked;  // Get the checked status of the checkbox
-    // Update the signal value for 'edm'
-    if (chartView) { // Ensure chartView is defined
-      chartView.signal("rap", checked ? 1 : 0).runAsync(); // Set the 'edm' signal value 
-    }
-  });
-  // Handle checkbox interaction to update the signal
-  document.getElementById("rockCheckbox").addEventListener("change", function () {
-    const checked = this.checked;  // Get the checked status of the checkbox
-    // Update the signal value for 'edm'
-    if (chartView) { // Ensure chartView is defined
-      chartView.signal("rock", checked ? 1 : 0).runAsync(); // Set the 'edm' signal value 
-    }
+
+      // Handle genre checkboxes dynamically
+  const genres = ["edm", "latin", "pop", "rnb", "rap", "rock"];
+  genres.forEach(genre => {
+    document.getElementById(`${genre}Checkbox`).addEventListener("change", function () {
+      if (chartView) {
+        chartView.signal(genre, this.checked ? 1 : 0).runAsync();
+      }
+    });
   });
 });
 
@@ -112,7 +74,11 @@ function renderChart(sampleData, chartId) {
       {
         name: "rock",
         value: 1,
-      }
+      },
+      {
+        "name": "highlightedSongs",
+        "value": []
+      }      
     ],
     "transform": [
       {

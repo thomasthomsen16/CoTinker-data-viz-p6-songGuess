@@ -6,6 +6,7 @@ body {
     font-family: 'Roboto', sans-serif;
     color: var(--main-text-color);
     background-color: var(--main-color);
+    font-size: 14px;
 }
 
 .header {
@@ -77,13 +78,19 @@ input[type="checkbox"] {
 }
 
 table {
-    width: 60%;
+    width: 40%;
     border-collapse: collapse; /* Ensures the borders of adjacent cells are merged */
+    font-size: inherit;
+}
+
+table > caption {
+    font-weight: 900;
+    margin-bottom: 8px;
 }
 
 th, td {
     border: 1px solid #ffffff;
-    padding: 8px; 
+    padding: 6px; 
     text-align: center;
 }
 
@@ -103,4 +110,30 @@ select {
     border: 1px solid #ffffff;
     background-color: #ffffff31;
     color: white;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+button {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    background-color: #ffffff31;
+    color: white;
+    width: 100px;
+}
+
+button:hover {
+    background-color: #ffffff60;
+    color: white;
+}
+
+button:active {
+    background-color: #ffffff;
+    color: black;
 }

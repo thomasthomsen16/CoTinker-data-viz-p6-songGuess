@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@5"></script>
     <title>CoTinker data viz p6: Guessing songs with parallel coordinate plot</title>
 </head>
+
 <body>
     <div class="header">
         <img src="Assets/CoTinker_Logo_hvid.svg" alt="" height="56px">
@@ -116,15 +118,10 @@
             </tbody>
         </table>
     </div>
-
-    <select name="row5" id="row5Select">
-        <option value="edm">edm</option>
-        <option value="latin">latin</option>
-        <option value="pop">pop</option>
-        <option value="rnb">rnb</option>
-        <option value="rap">rap</option>
-        <option value="rock">rock</option>
-    </select>
+    <div class="button-container">
+        <button type="button" id="reveal-button"> Afslør genre</button>
+    </div>
     <script src="main.js"></script>
 </body>
+
 </html>
