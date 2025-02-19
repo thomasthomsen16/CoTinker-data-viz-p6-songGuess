@@ -96,3 +96,11 @@ tbody tr:nth-child(even) {
     background-color: #ffffff31;
 }
 
+select {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    background-color: #ffffff31;
+    color: white;
+}
