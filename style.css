@@ -137,3 +137,10 @@ button:active {
     background-color: #ffffff;
     color: black;
 }
+
+button:disabled {
+    background-color: gray !important;
+    color: darkgray !important;
+    cursor: not-allowed;
+    opacity: 0.5;
+}

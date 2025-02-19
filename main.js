@@ -17,12 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
       if (chartView) {
         chartView.signal(genre, this.checked ? 1 : 0).runAsync();
       }
-    });
+    }); 
   });
 
   document.getElementById("reveal-button").addEventListener("click", function () {
     highlightSelectedSongs();
   });
+
+    // Dropdown change event to check if all are selected
+    const dropdowns = [
+      document.getElementById("row1Select"),
+      document.getElementById("row2Select"),
+      document.getElementById("row3Select"),
+      document.getElementById("row4Select"),
+    ];
+  
+    dropdowns.forEach(dropdown => dropdown.addEventListener("change", checkDropdowns));
 });
 
 
@@ -353,3 +363,22 @@ function highlightSelectedSongs() {
     chartView.signal("highlightedSongs", selectedIndexes).runAsync();
   }
 };
+
+function checkDropdowns() {
+  
+  const allSelected = dropdowns.every(dropdown => dropdown.value !== "");
+  revealButton.disabled = !allSelected; // Enable if all are selected, otherwise disable
+};
+
+function checkDropdowns() {
+  const dropdowns = [
+    document.getElementById("row1Select"),
+    document.getElementById("row2Select"),
+    document.getElementById("row3Select"),
+    document.getElementById("row4Select"),
+  ];
+
+  const allSelected = dropdowns.every(dropdown => dropdown.value !== "");
+  const revealButton = document.getElementById("reveal-button");
+  revealButton.disabled = !allSelected;
+}
