@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fillTableWithRandomSongs(sampleData);
     })
 
-      // Handle genre checkboxes dynamically
+  // Handle genre checkboxes dynamically
   const genres = ["edm", "latin", "pop", "rnb", "rap", "rock"];
   genres.forEach(genre => {
     document.getElementById(`${genre}Checkbox`).addEventListener("change", function () {
@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
         chartView.signal(genre, this.checked ? 1 : 0).runAsync();
       }
     });
+  });
+
+  document.getElementById("reveal-button").addEventListener("click", function () {
+    highlightSelectedSongs();
   });
 });
 
@@ -78,7 +82,7 @@ function renderChart(sampleData, chartId) {
       {
         "name": "highlightedSongs",
         "value": []
-      }      
+      }
     ],
     "transform": [
       {
@@ -134,7 +138,14 @@ function renderChart(sampleData, chartId) {
       {
         "mark": "line",
         "encoding": {
-          "color": { "type": "nominal", "field": "playlist_genre" },
+          "color": {
+            "condition": {
+              "test": "indexof(highlightedSongs, datum.index) > -1",
+              "value": "black"
+            },
+            "field": "playlist_genre",
+            "type": "nominal"
+          },
           "detail": { "type": "nominal", "field": "index" },
           "opacity": {
             "condition": {
@@ -167,12 +178,12 @@ function renderChart(sampleData, chartId) {
             "field": "norm_val",
             "axis": null
           },
-          //   "tooltip": [
-          //     { "type": "quantitative", "field": "axis1" },
-          //     { "type": "quantitative", "field": "axis2" },
-          //     { "type": "quantitative", "field": "axis3" },
-          //     { "type": "quantitative", "field": "axis4" }
-          //   ]
+          "tooltip": [
+            { "type": "quantitative", "field": "tempo" },
+            { "type": "quantitative", "field": "danceability" },
+            { "type": "quantitative", "field": "energy" },
+            { "type": "quantitative", "field": "valence" }
+          ]
         }
       },
       {
@@ -298,27 +309,47 @@ function getRandomSample(data, sampleSize) {
   const validData = data.filter(row => requiredFields.every(field => row[field] !== null));
 
   if (validData.length <= sampleSize) {
-    return validData;
+    return validData.map((row, i) => ({ ...row, index: i })); // Ensure index is assigned
   }
 
-  return validData.sort(() => 0.5 - Math.random()).slice(0, sampleSize);
-}
+  return validData
+    .sort(() => 0.5 - Math.random())
+    .slice(0, sampleSize)
+    .map((row, i) => ({ ...row, index: i })); // Assign index
+};
 
 function fillTableWithRandomSongs(sampleData) {
-  // Randomly shuffle and then pick 4 songs.
   const randomSongs = sampleData.sort(() => Math.random() - 0.5).slice(0, 4);
-  
-  // Loop over each random song (these correspond to rows 1-4 in the table body)
+
+  // Randomly shuffle and then pick 4 songs.
   for (let i = 0; i < randomSongs.length; i++) {
     const song = randomSongs[i];
     // Get the row by its ID ("row1", "row2", etc.)
     const row = document.getElementById("row" + (i + 1));
+
     if (row && row.cells.length >= 5) {
       // Fill in the first four cells with the song's values.
       row.cells[0].innerText = song.tempo;
       row.cells[1].innerText = song.danceability;
       row.cells[2].innerText = song.energy;
       row.cells[3].innerText = song.valence;
+
+      // Assign the correct index from the dataset
+      row.dataset.index = song.index;  // Ensure `index` exists in `song`
     }
   }
-}
+};
+
+
+function highlightSelectedSongs() {
+  let selectedIndexes = [];
+  for (let i = 1; i <= 4; i++) {
+    const row = document.getElementById("row" + i);
+    if (row && row.dataset.index) {
+      selectedIndexes.push(parseInt(row.dataset.index));
+    }
+  }
+  if (chartView) {
+    chartView.signal("highlightedSongs", selectedIndexes).runAsync();
+  }
+};
