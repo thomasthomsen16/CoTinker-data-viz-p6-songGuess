@@ -210,11 +210,11 @@ function renderChart(sampleData, chartId) {
             "axis": null
           },
           "tooltip": [
-            { "type": "quantitative", "field": "tempo" },
-            { "type": "quantitative", "field": "danceability" },
-            { "type": "quantitative", "field": "energy" },
-            { "type": "quantitative", "field": "valence" },
-            { "type": "nominal", "field": "playlist_genre" },
+            // { "type": "quantitative", "field": "tempo" },
+            // { "type": "quantitative", "field": "danceability" },
+            // { "type": "quantitative", "field": "energy" },
+            // { "type": "quantitative", "field": "valence" },
+            // { "type": "nominal", "field": "playlist_genre" },
           ]
         }
       },
@@ -230,7 +230,7 @@ function renderChart(sampleData, chartId) {
               { "signal": "axis4" }
             ]
           },
-          "y": { "value": 0 }
+          "y": { "value": 0 } 
         },
         "layer": [
           {
