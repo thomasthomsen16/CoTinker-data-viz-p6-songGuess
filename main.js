@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(response => response.text())
     .then(csvData => {
       const parsedData = parseCSV(csvData);
-      const sampleData = getRandomSample(parsedData, 100);
+      const sampleData = getRandomSample(parsedData, 6);
       renderChart(sampleData, "chart1");
       fillTableWithRandomSongs(sampleData);
     })
@@ -17,30 +17,43 @@ document.addEventListener("DOMContentLoaded", function () {
       if (chartView) {
         chartView.signal(genre, this.checked ? 1 : 0).runAsync();
       }
-    }); 
+    });
   });
 
   document.getElementById("reveal-button").addEventListener("click", function () {
-    highlightSelectedSongs();
-      // Reveal the genre column header
-  document.getElementById("genre-column-header").style.display = "table-cell";
-
-  // Reveal each genre cell in the rows
-  const genreCells = document.querySelectorAll("#genre-cell");
-  genreCells.forEach(cell => {
-    cell.style.display = "table-cell"; // Make genre cells visible
-  });
-  });
-
-    // Dropdown change event to check if all are selected
-    const dropdowns = [
-      document.getElementById("row1Select"),
-      document.getElementById("row2Select"),
-      document.getElementById("row3Select"),
-      document.getElementById("row4Select"),
-    ];
+    // Log the action to confirm the button click
+    console.log("Reveal button clicked!");
   
-    dropdowns.forEach(dropdown => dropdown.addEventListener("change", checkDropdowns));
+    // Show the genre column
+    const genreColumnHeader = document.getElementById("genre-column-header");
+    if (genreColumnHeader) {
+      genreColumnHeader.style.display = "table-cell";  // Show the column header
+    }
+  
+    // Reveal genre cells for all rows
+    for (let i = 1; i <= 4; i++) {
+      const row = document.getElementById("row" + i);
+      if (row) {
+        const genreCell = row.querySelector("#genre-cell");
+        if (genreCell) {
+          genreCell.style.display = "table-cell";  // Reveal the genre cell
+        }
+      }
+    }
+  
+    // Call highlightSelectedSongs if necessary (assuming it is related to the genre reveal)
+    highlightSelectedSongs();
+  });
+
+  // Dropdown change event to check if all are selected
+  const dropdowns = [
+    document.getElementById("row1Select"),
+    document.getElementById("row2Select"),
+    document.getElementById("row3Select"),
+    document.getElementById("row4Select"),
+  ];
+
+  dropdowns.forEach(dropdown => dropdown.addEventListener("change", checkDropdowns));
 });
 
 
@@ -200,7 +213,8 @@ function renderChart(sampleData, chartId) {
             { "type": "quantitative", "field": "tempo" },
             { "type": "quantitative", "field": "danceability" },
             { "type": "quantitative", "field": "energy" },
-            { "type": "quantitative", "field": "valence" }
+            { "type": "quantitative", "field": "valence" },
+            { "type": "nominal", "field": "playlist_genre" },
           ]
         }
       },
@@ -242,7 +256,7 @@ function renderChart(sampleData, chartId) {
               { "signal": "axis4" }
             ]
           },
-          "y": { "value": 150 }
+          "y": { "value": 250 } //Should be half of the height of chart
         },
         "layer": [
           {
@@ -268,7 +282,7 @@ function renderChart(sampleData, chartId) {
               { "signal": "axis4" }
             ]
           },
-          "y": { "value": 300 }
+          "y": { "value": 500 } // Should be the hight of the chart
         },
         "layer": [
           {
@@ -366,24 +380,42 @@ function getRandomSample(data, sampleSize) {
 }
 
 function fillTableWithRandomSongs(sampleData) {
-  const randomSongs = sampleData.sort(() => Math.random() - 0.5).slice(0, 4);
+  const selectedGenres = []; // Keep track of the unique genres we pick
+  const randomSongs = [];
 
-  // Randomly shuffle and then pick 4 songs.
+  // Try picking songs until we have 4 unique genres
+  while (randomSongs.length < 4) {
+    const randomIndex = Math.floor(Math.random() * sampleData.length);
+    const song = sampleData[randomIndex];
+
+    // If the song's genre isn't already in selectedGenres, add it
+    if (!selectedGenres.includes(song.playlist_genre)) {
+      selectedGenres.push(song.playlist_genre);  // Mark this genre as selected
+      randomSongs.push(song);  // Add this song to the list of random songs
+    }
+  }
+
+  // Fill the table with the 4 random songs
   for (let i = 0; i < randomSongs.length; i++) {
     const song = randomSongs[i];
-    // Get the row by its ID ("row1", "row2", etc.)
     const row = document.getElementById("row" + (i + 1));
 
     if (row && row.cells.length >= 5) {
-      // Fill in the first four cells with the song's values.
+      // Fill in the song's details in the table
       row.cells[0].innerText = song.tempo;
       row.cells[1].innerText = song.danceability;
       row.cells[2].innerText = song.energy;
       row.cells[3].innerText = song.valence;
       row.cells[5].innerText = song.playlist_genre;
 
-      // Assign the correct index from the dataset
-      row.dataset.index = song.index;  // Ensure `index` exists in `song`
+      // Pre-fill the genre cell (hidden)
+      const genreCell = row.querySelector("#genre-cell");
+      if (genreCell) {
+        genreCell.innerText = song.playlist_genre;
+      }
+
+      // Assign the index for use with other functions
+      row.dataset.index = song.index;
     }
   }
 };
@@ -391,19 +423,33 @@ function fillTableWithRandomSongs(sampleData) {
 
 function highlightSelectedSongs() {
   let selectedIndexes = [];
+  
+  // Loop through each row to capture the selected index
   for (let i = 1; i <= 4; i++) {
     const row = document.getElementById("row" + i);
-    if (row && row.dataset.index) {
-      selectedIndexes.push(parseInt(row.dataset.index));
+    if (row) {
+      const index = row.dataset.index; // Get the dataset index
+      console.log(`row${i} dataset.index:`, index); // Log the index for debugging
+
+      // Ensure the row has a dataset index before pushing it to selectedIndexes
+      if (index) {
+        selectedIndexes.push(parseInt(index)); // Store the index of selected row
+      }
     }
   }
+  
+  // Log the selected indexes that are being passed to chartView
+  console.log("Selected indexes to highlight:", selectedIndexes);
+
   if (chartView) {
     chartView.signal("highlightedSongs", selectedIndexes).runAsync();
   }
-};
+}
+
+
 
 function checkDropdowns() {
-  
+
   const allSelected = dropdowns.every(dropdown => dropdown.value !== "");
   revealButton.disabled = !allSelected; // Enable if all are selected, otherwise disable
 };
@@ -424,7 +470,7 @@ function checkDropdowns() {
 function revealGenreColumn() {
   // Show the genre column header
   document.getElementById("genre-column-header").style.display = "table-cell";
-  
+
   const genres = ["edm", "latin", "pop", "rnb", "rap", "rock"];
 
   // For each row, set the genre based on the song index
