@@ -1,4 +1,5 @@
 let chartView = [];
+let selectedSongIndices = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   fetch('https://raw.githubusercontent.com/thomasthomsen16/dataset-p2/refs/heads/main/30000_spotify_songs.csv')
@@ -123,9 +124,9 @@ function renderChart(sampleData, chartId) {
       {
         "filter": "datum[axis1] != null && datum[axis2] != null && datum[axis3] != null && datum[axis4] != null"
       },
-      {
-        "window": [{ "op": "count", "as": "index" }]
-      },
+      // {
+      //   "window": [{ "op": "count", "as": "index" }]
+      // },
       {
         "fold": ["tempo", "danceability", "energy", "valence", "speechiness", "instrumentalness", "duration_ms", "liveness", "release_year"],
         "as": ["key", "value"]
@@ -380,7 +381,7 @@ function getRandomSample(data, sampleSize) {
 }
 
 function fillTableWithRandomSongs(sampleData) {
-  const selectedGenres = []; // Keep track of the unique genres we pick
+  const selectedGenres = []; // Track unique genres
   const randomSongs = [];
 
   // Try picking songs until we have 4 unique genres
@@ -388,12 +389,14 @@ function fillTableWithRandomSongs(sampleData) {
     const randomIndex = Math.floor(Math.random() * sampleData.length);
     const song = sampleData[randomIndex];
 
-    // If the song's genre isn't already in selectedGenres, add it
     if (!selectedGenres.includes(song.playlist_genre)) {
-      selectedGenres.push(song.playlist_genre);  // Mark this genre as selected
-      randomSongs.push(song);  // Add this song to the list of random songs
+      selectedGenres.push(song.playlist_genre);
+      randomSongs.push(song);
     }
   }
+
+  // Save the indices globally so we can use them later for highlighting
+  selectedSongIndices = randomSongs.map(song => song.index);
 
   // Fill the table with the 4 random songs
   for (let i = 0; i < randomSongs.length; i++) {
@@ -401,24 +404,24 @@ function fillTableWithRandomSongs(sampleData) {
     const row = document.getElementById("row" + (i + 1));
 
     if (row && row.cells.length >= 5) {
-      // Fill in the song's details in the table
       row.cells[0].innerText = song.tempo;
       row.cells[1].innerText = song.danceability;
       row.cells[2].innerText = song.energy;
       row.cells[3].innerText = song.valence;
       row.cells[5].innerText = song.playlist_genre;
 
-      // Pre-fill the genre cell (hidden)
+      // Pre-fill the hidden genre cell
       const genreCell = row.querySelector("#genre-cell");
       if (genreCell) {
         genreCell.innerText = song.playlist_genre;
       }
 
-      // Assign the index for use with other functions
+      // Also set the dataset index (for redundancy or future use)
       row.dataset.index = song.index;
     }
   }
-};
+}
+
 
 
 function highlightSelectedSongs() {
@@ -442,7 +445,7 @@ function highlightSelectedSongs() {
   console.log("Selected indexes to highlight:", selectedIndexes);
 
   if (chartView) {
-    chartView.signal("highlightedSongs", selectedIndexes).runAsync();
+    chartView.signal("highlightedSongs", selectedSongIndices).runAsync();
   }
 }
 
